@@ -1,31 +1,47 @@
-import node
-from random import random
+from node import Node
 '''
-node class
+graph class
 TODO implement the class and missing functions
 TODO comment the file
+TODO add edges
 '''
-class graph():
+class Graph:
     
-    def __init__(self,allNodes):
-        self.allNodes = allNodes
-    
+    def __init__(self):
+        self.allNodes = []
+        self.alreadyInGraph = []
+        self.node = None
     def addNode(self, word):
-        for nod in self.allNodes:
-            if nod.getWord() == word:
-                self.allNodes.append(node(word))
-    
-    def followNodes(self):
-        running = True
-        startingNode=self.allNodes[random()]
-        song=startingNode.getWord
-        second=startingNode.nextWord(song)
+        edgeNode=Node(word) 
         
-        while running:
-            second=second.nextWord(song)
-            if second==None:
-                running=False
-
+        if not self.node:
+            self.node=edgeNode
+            return None
+            
+        if not self.allNodes:
+            self.alreadyInGraph.append(self.node.getWord())
+            self.node.addEdges(edgeNode)
+            self.allNodes.append(self.node)
+            self.node=edgeNode
+            return None
+        
+        for node in self.allNodes:
+           
+            if not self.alreadyInGraph.__contains__(self.node.getWord()):
+                self.allNodes.append(self.node)
+                self.alreadyInGraph.append(self.node.getWord())
+                self.node.addEdges(edgeNode)
+                self.node=edgeNode
+                break
+           
+            else:
+                if node.getWord() == self.node.getWord:
+                    node.addEdges(edgeNode)
+                    self.node=edgeNode
+                    break
+        print(self.node.getWord() + " no ha entrado")
+    def getNode(self,nodeID):
+        return self.allNodes[nodeID]
     
     
                 

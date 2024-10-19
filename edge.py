@@ -4,12 +4,12 @@ TODO implement the class and missing functions
 TODO comment the file
 '''
 
-class edge():
+class Edge:
     
     
     def __init__(self,node):
         self.toNode = node
-        self.weight = 0
+        self.weight = 1
     
     def addWeight(self):
         self.weight += 1
