@@ -38,6 +38,7 @@ class Graph:
                 if node.getWord() == self.node.getWord:
                     node.addEdges(edgeNode)
                     self.node=edgeNode
+                    self.alreadyInGraph.append(self.node.getWord())
                     break
         print(self.node.getWord() + " no ha entrado")
     def getNode(self,nodeID):
