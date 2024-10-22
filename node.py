@@ -14,34 +14,47 @@ class Node:
     def getWord(self):
         return self.word
 
-    def getEdge(self,node):
+    def checkEdge(self,node):
+        nodeEdge=node.edges[0]
         for edge in self.edges:
-            if edge.getToNode() == node:
-                return edge
+                if edge.compareNode(nodeEdge.getToNode()): 
+                    edge.addWeight()
+                    return True
+        self.addEdgeToEdges(nodeEdge)
+        return False
     
-    def addEdges(self,node):
-        if self.edges:
+    def addNodeEdges(self,node):
+        if self.getWord() != node.getWord():
             self.edges.append(Edge(node))
             return None
         
-        if self.word != node.word:
-            self.edges.append(Edge(node))
+    def addEdgeToEdges(self,node):
+        if self.getWord() != node.getToNode().getWord():
+            self.edges.append(Edge(node.getToNode()))
             return None
-        
-        for edge in self.edges:
-            if edge.getToNode() == node:
-                edge.addWeight()
-                break 
     
     def nextNode(self):
+        higher=0
+        ed=None
         for edge in self.edges:
-            higher=0
             finalNode=None
             if edge.getWeight() > higher:
-                higher=edge.getWeight()
-                finalNode=edge.getToNode()
-        return finalNode.getToNode()
+                higher = edge.getWeight()
+                finalNode = edge.getToNode()
+                ed=edge
         
-            
-            
+        if ed:
+            self.subtractWeight(ed)
+        return finalNode
         
+    def addWeight(self,node):
+        for edge in self.edges:
+            for nodeEdge in node.edges:
+                if edge.getToNode().getWord() == nodeEdge.getToNode().getWord():
+                    edge.addWeight()
+                    break
+    def subtractWeight(self,edge):
+        for edge in self.edges:
+            if edge.getToNode().getWord() == edge.getToNode().getWord():
+                edge.reduceWeight()
+                break

@@ -8,42 +8,37 @@ TODO add edges
 class Graph:
     
     def __init__(self):
-        self.allNodes = []
-        self.alreadyInGraph = []
-        self.node = None
-    def addNode(self, word):
-        edgeNode=Node(word) 
-        
-        if not self.node:
-            self.node=edgeNode
-            return None
-            
-        if not self.allNodes:
-            self.alreadyInGraph.append(self.node.getWord())
-            self.node.addEdges(edgeNode)
-            self.allNodes.append(self.node)
-            self.node=edgeNode
-            return None
-        
-        for node in self.allNodes:
-           
-            if not self.alreadyInGraph.__contains__(self.node.getWord()):
-                self.allNodes.append(self.node)
-                self.alreadyInGraph.append(self.node.getWord())
-                self.node.addEdges(edgeNode)
-                self.node=edgeNode
-                break
-           
+        self.allNodes =[]
+        self.ingraph=[]
+    def addNode(self, node):
+        if self.allNodes and node.edges:
+            if self.nodeExists(node.getWord()):
+                for listNode in self.allNodes:
+                    if listNode.getWord() == node.getWord():
+                        self.ingraph.append(node.getWord())
+                        listNode.checkEdge(node)
+                        break
             else:
-                if node.getWord() == self.node.getWord:
-                    node.addEdges(edgeNode)
-                    self.node=edgeNode
-                    self.alreadyInGraph.append(self.node.getWord())
-                    break
-        print(self.node.getWord() + " no ha entrado")
-    def getNode(self,nodeID):
+                self.ingraph.append(node.getWord())
+                self.allNodes.append(node)
+        else:
+            self.ingraph.append(node.getWord())
+            self.allNodes.append(node)
+            
+    def getNodeID(self,nodeID):
         return self.allNodes[nodeID]
     
+    def getNodeWord(self,word):
+        for node in self.allNodes:
+            if node.getWord() == word:
+                return node
     
+    def nodeExists(self,word):
+        for node in self.allNodes:
+            if node.getWord() == word:
+                return True
+        return False
+    def test(self):
+        self.ingraph=list(set(self.ingraph))
                 
         
