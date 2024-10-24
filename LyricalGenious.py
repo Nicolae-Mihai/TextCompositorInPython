@@ -41,14 +41,13 @@ class LyricalGenious():
     The while loop stops if the desired song length is reached. 
     '''
     def createSong(self):
-        running = True
         number = int(random.randrange(0,self.graph.allNodes.__len__()))
         startingNode = self.graph.getNodeID(number)
         song = startingNode.getWord()
         following = startingNode.nextNode()
         wordCount = 1
         
-        while running and wordCount<self.songLength:
+        while wordCount<self.songLength:
             
             if following != None:
                 followingWord = following.getWord()
@@ -70,7 +69,6 @@ class LyricalGenious():
     of the punctuation marks and splits the content to generate the word array. 
     '''
     def cleanLines(self, song):
-
         normalisedWords = song.encode("windows-1252").decode("utf-8")
         unicodedWords = unidecode(normalisedWords)
         onlyWords = re.sub('[^A-Za-z0-9]+', ' ', unicodedWords).strip().lower()
@@ -107,7 +105,7 @@ class LyricalGenious():
         else: 
             self.previousNode=Node(word)
             self.graph.addNode(self.previousNode)
-            return None
+            return True
         
         self.previousNode = edgeNode
             
