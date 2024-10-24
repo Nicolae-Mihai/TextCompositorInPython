@@ -24,31 +24,33 @@ class Node:
     '''
     Method that checks and iserts the edges or adds weight to them depending on
     their existance in the edges list.
+    If the Node has no edges it is skipped from inserting in the Graph
     '''
-    def checkEdge(self,node):
-        nodeEdge = node.edges[0]
-        for edge in self.edges:
-                if edge.compareNode(nodeEdge.getToNode()): 
-                    edge.addWeight()
-                    break
-        self.addEdgeToEdges(nodeEdge)
+    def checkEdge(self, node):
+        if node.edges:
+            nodeEdge = node.edges[0]
+            for edge in self.edges:
+                    if edge.compareNode(nodeEdge.getToNode()): 
+                        edge.addWeight()
+                        break
+            self.addEdgeToEdges(nodeEdge)
     
     '''
     Method that inserts nodes as edges to another node.
     '''
-    def addNodeEdges(self,node):
+    def addNodeEdges(self, node):
         if self.getWord() != node.getWord():
             self.edges.append(Edge(node))
-            return None
+            return True
         
     '''
     Method that inserts edges as edges and checks to make sure their word 
     different from the node's.
     '''
-    def addEdgeToEdges(self,node):
+    def addEdgeToEdges(self, node):
         if self.getWord() != node.getToNode().getWord():
             self.edges.append(Edge(node.getToNode()))
-            return None
+            return True
     
     '''
     Method that returns the next node based on their weight.
@@ -94,7 +96,7 @@ class Node:
     Method that searches for edges based on the node they contain and reduces
     their edge weight.
     '''
-    def addWeight(self,node):
+    def addWeight(self, node):
         for edge in self.edges:
             for nodeEdge in node.edges:
                 if edge.getToNode().getWord() == nodeEdge.getToNode().getWord():

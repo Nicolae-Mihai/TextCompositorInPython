@@ -11,7 +11,7 @@ Main class of the project
 
 class LyricalGenious():
     songLength=300
-    previousWord = None
+    previousNode = None
     
     '''
     Method that navigates to the file whose path is determined using the path 
@@ -30,10 +30,9 @@ class LyricalGenious():
             with open(os.path.join(os.getcwd(),filename),"r") as file:        
                 fileWords = self.cleanLines(file.read())
                 file.close()
-            
             for word in fileWords:
-                self.createNode(word,self.previousWord)
-
+                self.createNode(word)
+            self.previousNode=None
     '''
     Method that creates the song by following the nodes and stitching their 
     words to the "song" variable.
@@ -70,7 +69,7 @@ class LyricalGenious():
     After normalisation it uses regex to leave behind only the words and none 
     of the punctuation marks and splits the content to generate the word array. 
     '''
-    def cleanLines(self,song):
+    def cleanLines(self, song):
 
         normalisedWords = song.encode("windows-1252").decode("utf-8")
         unicodedWords = unidecode(normalisedWords)
@@ -81,26 +80,36 @@ class LyricalGenious():
     '''
     Method that creates a node in the graph.
     in the first iteration it recieves only word, which will pass on to become 
-    prev in the second iteration.
+    self.previousNode in the second iteration and the new word becomes the edge
+    Node.
     If a duplicate appears,since it can't edge with itself it is stored in
     duplicate until a different word appears and it bonds duplicate to it.
-    TODO: ask if you should move this
     '''
-    def createNode(self,word,prev=None ):
+    def createNode(self, word):
         self.duplicate = None
-        if prev:
-            if not self.duplicate:
-                node = Node(self.previousWord)
-                node.addNodeEdges(Node(word))
-                if node.edges:
-                    self.graph.addNode(node)
-                else:
-                    duplicate = node
-            elif self.duplicate.getWord() != self.previousWord():
-                self.duplicate.addNodeEdges(Node(word))
-                self.graph.addNode(duplicate)
-                self.duplicate = None
-        self.previousWord = word
+        edgeNode=None
+        if self.previousNode:
+            if word:  
+                if not self.duplicate:
+                    currentNode = self.previousNode
+                    edgeNode=Node(word)
+                    self.previousNode.addNodeEdges(edgeNode)
+                    if currentNode.edges:
+                        self.graph.addNode(currentNode)
+                    else:
+                        duplicate = currentNode
+                elif self.duplicate.getWord() != self.previousNode():
+                    self.duplicate.addNodeEdges(Node(word))
+                    self.graph.addNode(duplicate)
+                    self.duplicate = None
+            else:
+                self.graph.addNode(self.previousNode)
+        else: 
+            self.previousNode=Node(word)
+            self.graph.addNode(self.previousNode)
+            return None
+        
+        self.previousNode = edgeNode
             
 lg = LyricalGenious()
 lg.fillGraph()

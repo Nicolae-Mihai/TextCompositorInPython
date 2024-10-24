@@ -9,7 +9,6 @@ class Graph:
     '''    
     def __init__(self):
         self.allNodes = []
-        self.nodeWords=[]
 
     '''
     Method that inserts the Nodes into the graph, checking that they are not
@@ -32,13 +31,13 @@ class Graph:
     '''
     Method that returns the node in the position corresponding to the ID passed.
     '''
-    def getNodeID(self,nodeID):
+    def getNodeID(self, nodeID):
         return self.allNodes[nodeID]
     
     '''
     Method that returns the node that contains the word sent.
     '''
-    def getNodeWord(self,word):
+    def getNodeWord(self, word):
         for node in self.allNodes:
             if node.getWord() == word:
                 return node
@@ -47,11 +46,10 @@ class Graph:
     Method that checks to see if a node containing the word exists in the list
     or not.
     '''
-    def nodeExists(self,word):
+    def nodeExists(self, word):
         for node in self.allNodes:
             if node.getWord() == word:
                 return True
         return False
-        
                 
         

@@ -7,7 +7,7 @@ class Edge:
     '''
     Constructor for the Edge class.
     '''
-    def __init__(self,node):
+    def __init__(self, node):
         self.toNode = node
         self.weight = 1
     '''
@@ -37,7 +37,7 @@ class Edge:
     Method that compares the word of a node to the node word it contains and it 
     returns true or false deppending on the result.
     '''
-    def compareNode(self,node):
+    def compareNode(self, node):
         if self.toNode.getWord() == node.getWord(): 
             return True
         else:
