@@ -1,6 +1,3 @@
-'''
-Main class of the project
-'''
 import os,glob
 import random
 from unidecode import unidecode
@@ -8,19 +5,22 @@ import re
 from graph import Graph
 from node import Node
 
+'''
+Main class of the project
+'''
 
 class LyricalGenious():
     songLength=300
     previousWord = None
     
-    """
+    '''
     Method that navigates to the file whose path is determined using the path 
     variable and starts opening the files one by one and extracting their
     content. Once a file has been opened and it's content extracted the file 
     content is stripped down to only lowercase words.
     After cleaning the content the words are converted to nodes and inserted to
     the graph.
-    """
+    '''
     def fillGraph(self):
         self.graph = Graph()
         path = "songs/"
@@ -34,13 +34,13 @@ class LyricalGenious():
             for word in fileWords:
                 self.createNode(word,self.previousWord)
 
-    """
+    '''
     Method that creates the song by following the nodes and stitching their 
     words to the "song" variable.
     The method generates a random int between 0 and the number of nodes in the
     graph and uses the int to select the first node in the series.
     The while loop stops if the desired song length is reached. 
-    """
+    '''
     def createSong(self):
         running = True
         number = int(random.randrange(0,self.graph.allNodes.__len__()))
@@ -62,14 +62,14 @@ class LyricalGenious():
                 
         return song
     
-    """
+    '''
     Method that cleans and normalises the content extracted from the files.
     In order to get rid of the accents it encodes and then decodes the content
     in order to prepare them for the normalisation where the accents are 
     stripped away.
     After normalisation it uses regex to leave behind only the words and none 
     of the punctuation marks and splits the content to generate the word array. 
-    """
+    '''
     def cleanLines(self,song):
 
         normalisedWords = song.encode("windows-1252").decode("utf-8")
@@ -78,14 +78,14 @@ class LyricalGenious():
         cleanedWords = onlyWords.split()
         return cleanedWords
     
-    """
+    '''
     Method that creates a node in the graph.
     in the first iteration it recieves only word, which will pass on to become 
     prev in the second iteration.
     If a duplicate appears,since it can't edge with itself it is stored in
     duplicate until a different word appears and it bonds duplicate to it.
     TODO: ask if you should move this
-    """
+    '''
     def createNode(self,word,prev=None ):
         self.duplicate = None
         if prev:
@@ -101,7 +101,7 @@ class LyricalGenious():
                 self.graph.addNode(duplicate)
                 self.duplicate = None
         self.previousWord = word
-    
+            
 lg = LyricalGenious()
 lg.fillGraph()
 print(lg.createSong())
